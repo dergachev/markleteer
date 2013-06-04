@@ -4,7 +4,7 @@
       .each(function() {
         var associatedBookmarklet;
 
-        var encodeBookmarklet(code) {
+        var encodeBookmarklet = function(code) {
           code = code.trim();
           if (code.slice(0,11) !== "javascript:") { 
             code = "javascript:" + code;
