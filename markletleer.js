@@ -1,6 +1,8 @@
 (function($) {
   $(function() {
     $('textarea.bookmarklet')
+      .wrap('<div class="bookmarkletWrapper" style="position: relative; float: left;" />')
+      .css( { width: '800px', height: '300px'})
       .each(function() {
         var associatedBookmarklet;
 
@@ -23,11 +25,16 @@
               'font-size': '22px',
               'line-height': 1.5,
               'color': '#1b2d37',
-              'width': '40%',
               'background-color': '#cddde6',
               'padding': '5px',
               'border-radius': '5px',
-              'text-decoration': 'none'
+              'text-decoration': 'none',
+              'display': 'block',
+              'float': 'left',
+              'clear': 'left',
+              'position': 'absolute',
+              'bottom': "8px",
+              'right': "8px"
             })
             .on('click', function() { 
               // TODO: slicker help message; or show preview of effects of bookmarklets
