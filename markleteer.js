@@ -1,14 +1,13 @@
 (function($) {
   $(function() {
-    $('textarea.bookmarklet')
-      .wrap('<div class="bookmarkletWrapper" style="position: relative; width: 800px;" />')
-      .css( { width: '800px', height: '300px'})
-      .each(function() {
+
+    $.fn.markleteer = function() {
+      return this.each(function() {
         var associatedBookmarklet;
 
         var encodeBookmarklet = function(code) {
           code = code.trim();
-          if (code.slice(0,11) !== "javascript:") { 
+          if (code.slice(0,11) !== "javascript:") {
             code = "javascript:" + code;
           }
           code = encodeURI(code);
@@ -36,9 +35,9 @@
               'bottom': "8px",
               'right': "8px"
             })
-            .on('click', function() { 
+            .on('click', function() {
               // TODO: slicker help message; or show preview of effects of bookmarklets
-              //console.log("Clicked me", $(this).attr('href')); 
+              //console.log("Clicked me", $(this).attr('href'));
               alert("To install the bookmarklet, drag this link to your bookmarks toolbar.");
               return false;
             });
@@ -54,10 +53,20 @@
           $(el).after(associatedBookmarklet);
         }
 
+
+        $(this).change(function(e) { appendBookmarklet(this); })
+          .wrap('<div class="bookmarkletWrapper" style="position: relative; width: 800px;" />')
+          .css( { width: '800px', height: '300px'});
+
         appendBookmarklet(this);
-        $(this).change(function(e) {
-          appendBookmarklet(this);
-        });
       });
+    }
+
+    // now activate our plugin on all textarea.bookmarklet elements
+    // TODO: consider replacing with data-api a la bootsrap.js, see:
+    //   https://github.com/twitter/bootstrap/blob/master/js/bootstrap-button.js#L96
+    //   http://twitter.github.io/bootstrap/javascript.html#buttons
+    //   http://api.jquery.com/on/
+    $('textarea.bookmarklet').markleteer();
   });
 })(jQuery)
