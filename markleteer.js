@@ -1,7 +1,7 @@
 (function($) {
   $(function() {
     $('textarea.bookmarklet')
-      .wrap('<div class="bookmarkletWrapper" style="position: relative; float: left;" />')
+      .wrap('<div class="bookmarkletWrapper" style="position: relative; width: 800px;" />')
       .css( { width: '800px', height: '300px'})
       .each(function() {
         var associatedBookmarklet;
