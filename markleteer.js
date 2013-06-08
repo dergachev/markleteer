@@ -1,18 +1,26 @@
 (function($) {
   $(function() {
 
+    // TODO: use http://jsbeautifier.org/js/lib/beautify.js
+    var decodeBookmarklet = function(code) {
+      code = code.trim().replace(/^javascript:/,'');
+      code = decodeURI(code);
+      decodeURI(code);
+      return code;
+    }
+
+    var encodeBookmarklet = function(code) {
+      code = code.trim();
+      if (code.slice(0,11) !== "javascript:") {
+        code = "javascript:" + code;
+      }
+      code = encodeURI(code);
+      return code;
+    }
+
     $.fn.markleteer = function() {
       return this.each(function() {
         var associatedBookmarklet;
-
-        var encodeBookmarklet = function(code) {
-          code = code.trim();
-          if (code.slice(0,11) !== "javascript:") {
-            code = "javascript:" + code;
-          }
-          code = encodeURI(code);
-          return code;
-        }
 
         var createButton = function(code, title) {
           return $('<a/>')
@@ -38,7 +46,9 @@
             .on('click', function() {
               // TODO: slicker help message; or show preview of effects of bookmarklets
               //console.log("Clicked me", $(this).attr('href'));
-              alert("To install the bookmarklet, drag this link to your bookmarks toolbar.");
+              console.log("To install the bookmarklet, drag this link to your bookmarks toolbar.");
+              console.log("Bookmarklet source code: ");
+              console.log(decodeBookmarklet(this.href));
               return false;
             });
         }
