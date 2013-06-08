@@ -1,22 +1,53 @@
 <html>
 <head>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
   <script src="markleteer.js"></script>
+  <script src="markleteer.api.js"></script>
+  <script src="markleteer.utils.js"></script>
 </head>
 <body>
 <h1>Markleteer.js</h1>
 <p> An easier way to create bookmarklets </p>
-<a href="https://github.com/dergachev/markleteer"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 
 <h2> Examples </h2>
-View source to see how it's done. (TODO: automate this...)
+<p> View source to see how it's done. (TODO: automate this...)</p>
+
 <h3> Basic </h3>
 <textarea class="bookmarklet" title="Basic">
 // Visitor can easily inspect and tweak the embedded code; bookmarklet link gets auto updated.
-// The code in the <textarea> tag is automatically minified, and javascript: prefix is optional.
+// The code in the textarea tag is automatically minified, and javascript: prefix is optional.
+// Not that the textarea's title attribute defines the bookmarklet title.
 
 alert("Hi from Basic bookmarklet");
 </textarea>
 
+<h3> External loading </h3>
+
+The following demonstrates a basic use of markleteer's javascript api:
+
+<textarea class="bookmarklet">
+(new Markleteer("Fancy Bookmarklet")).settings({
+      "firstSetting": "Default value for first string setting",
+      "secondSetting": { "default": "A", "type":"select", "options": ["A","B","C"] }
+    })
+    .conditionalDependencies([
+      {
+        "test": function() { return typeof(jQuery) !== "undefined" && Markleteer.compareVersionNumbers(jQuery.fn.jquery, "1.5.1") >= 0;},
+        "nope": "//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js"
+      },
+      {
+        "test": function() { return typeof(jQuery.fn.alert) !== "undefined";},
+        "nope": "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap-alert.js"
+      }
+    ])
+    .load([
+      "http://dergachev.github.io/fancybookmarklet/script.js",
+      "http://dergachev.github.io/fancybookmarklet/style.css"
+    ])
+    .renderLink();
+    //TODO: consider supporting .execute(myFunc)
+</textarea>
+
+<a href="https://github.com/dergachev/markleteer"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 </body>
 </html>
